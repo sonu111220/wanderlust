@@ -1,0 +1,77 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm border-0 rounded-3 p-4">
+        <h3 class="fw-bold text-center mb-4">Create a New Listing</h3>
+
+        <form action="/listings" method="POST" enctype="multipart/form-data">
+          <!-- 🏷️ Title -->
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="listing[title]" id="title" class="form-control" required>
+          </div>
+
+          <!-- 📝 Description -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="listing[description]" id="description" class="form-control" rows="2" required></textarea>
+          </div>
+
+          <!-- 📸 Image Upload -->
+          <div class="mb-3">
+            <label for="image" class="form-label">Upload Listing Image</label>
+            <input type="file" name="listing[image]" id="image" class="form-control" accept="image/*" required>
+          </div>
+
+          <!-- 💰 Price & 🌍 Country -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="price" class="form-label">Price (PKR)</label>
+              <input type="number" name="listing[price]" id="price" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label for="country" class="form-label">Country</label>
+              <input type="text" name="listing[country]" id="country" class="form-control" required>
+            </div>
+          </div>
+
+          <!-- 📍 Location -->
+          <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" name="listing[location]" id="location" class="form-control" required>
+          </div>
+
+          <!-- 🚀 Submit -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-danger fw-semibold">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

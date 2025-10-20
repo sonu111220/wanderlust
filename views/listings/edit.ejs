@@ -1,0 +1,100 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10 col-sm-12">
+      <div class="card shadow-sm border-0 rounded-3 p-4">
+
+        <h3 class="mb-4">Edit Listing</h3>
+
+        <% 
+          // Safely determine a usable image URL:
+          let imageUrl;
+          if (listing.image) {
+            if (typeof listing.image === "string") {
+              imageUrl = listing.image;
+            } else if (typeof listing.image === "object" && listing.image.url) {
+              imageUrl = listing.image.url;
+            } else {
+              imageUrl = null;
+            }
+          } else {
+            imageUrl = null;
+          }
+        %>
+
+        <!-- Current image preview (if any) -->
+        <% if (imageUrl) { %>
+          <div class="mb-3 text-center">
+            <p class="text-muted small">Current Image Preview</p>
+            <img src="<%= imageUrl %>" alt="Current image" class="img-fluid rounded" style="max-height:300px; object-fit:cover;">
+          </div>
+        <% } else { %>
+          <div class="mb-3 text-center">
+            <p class="text-muted small">No image uploaded</p>
+            <img src="https://via.placeholder.com/600x300?text=No+Image" alt="No image" class="img-fluid rounded" style="max-height:300px; object-fit:cover;">
+          </div>
+        <% } %>
+
+        <!-- enctype added so file upload works -->
+        <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+          
+          <!-- Title -->
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input id="title" name="listing[title]" class="form-control" value="<%= listing.title %>" required>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="listing[description]" rows="4" class="form-control"><%= listing.description %></textarea>
+          </div>
+
+          <!-- Image Upload (Cloudinary) -->
+          <div class="mb-3">
+            <label for="imageFile" class="form-label">Upload new image (JPG/PNG/PDF)</label>
+            <!-- If your route expects upload.single("listing[image]") change name accordingly -->
+            <input id="image" type="file" name="listing[image]" accept="image/*,application/pdf" class="form-control">
+            <div class="form-text">Choose a file to replace the current image (optional).</div>
+          </div>
+
+          <!-- Optional: Allow paste URL (legacy support) -->
+          <!-- <div class="mb-3">
+            <label for="imageUrl" class="form-label">Or paste image URL (optional)</label>
+            <input id="imageUrl" type="text" name="listing[image]" class="form-control" placeholder="https://example.com/photo.jpg" value="<%= typeof listing.image === 'string' ? listing.image : (listing.image && listing.image.url ? listing.image.url : '') %>">
+            <div class="form-text">If you paste a URL it will be used (unless you upload a file).</div>
+          </div> -->
+
+          <!-- Price -->
+          <div class="mb-3">
+            <label for="price" class="form-label">Price (PKR)</label>
+            <input id="price" type="number" name="listing[price]" class="form-control" min="0" value="<%= listing.price %>" required>
+          </div>
+
+          <!-- Location -->
+          <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input id="location" name="listing[location]" class="form-control" value="<%= listing.location %>">
+          </div>
+
+          <!-- Country -->
+          <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+            <input id="country" name="listing[country]" class="form-control" value="<%= listing.country %>">
+          </div>
+
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Save Changes</button>
+            <a href="/listings/<%= listing._id %>" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

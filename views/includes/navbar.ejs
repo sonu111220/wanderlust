@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <!-- Brand / Logo -->
+    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+
+    <!-- Toggle button for mobile -->
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNavAltMarkup" 
+      aria-controls="navbarNavAltMarkup" 
+      aria-expanded="false" 
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Links -->
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <!-- Left Side Links -->
+      <div class="navbar-nav">
+        <!-- <a class="nav-link" href="/">Home</a> -->
+        <a class="nav-link" href="/listings">Explore</a>
+        <!-- <a class="nav-link" href="/listings/new">Add New Listing</a> -->
+      </div>
+
+      <!-- Right Side Links -->
+      <ul class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listings/new">Add New Listing</a>
+        <% if (!currentUser) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/login"><b>Login</b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/signup"><b>Sign Up</b></a>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <span class="nav-link">Hi, <%= currentUser.username %>!</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="/logout">Logout</a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>

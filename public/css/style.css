@@ -1,0 +1,99 @@
+body {
+    font-family: 'Plus Jakarta Sana', sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+}
+
+.container{
+    flex: 1;
+}
+
+.navbar{
+    height: 5rem;
+    background-color: white;
+}
+
+.fa-compass{
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+.nav-link{
+    color: #222222 !important;
+}
+
+/* Footer styles */
+.footer {
+  background: #e4dede; /* light gray background */
+  text-align: center;
+  padding: 20px 10px;
+  font-family: Arial, sans-serif;
+}
+
+/* Icons row */
+.footer-icons {
+  margin-bottom: 10px;
+}
+
+.footer-icons a {
+  color: #222222; /* icon color */
+  text-decoration: none;
+  margin: 0 8px;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+
+.footer-icons a:hover {
+  color: #555; /* hover effect */
+}
+
+/* Company text */
+.company {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Privacy & Terms */
+.footer-links a {
+  color: #000;
+  text-decoration: none;
+  margin: 0 5px;
+  font-size: 14px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+
+.card{
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-text-p{
+    font-weight: 400 !important;
+}
+
+.listing-link{
+    text-decoration: none;
+}
+
+.card-img-overlay:hover{
+   opacity: 0.2;
+   background-color: white;
+}
+
+.add-btn{
+    background-color: #fe424d;
+    border: none;
+}
