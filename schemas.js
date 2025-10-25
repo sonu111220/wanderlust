@@ -1,38 +1,4 @@
-// const Joi = require("joi");
 
-// module.exports.listingSchema = Joi.object({
-//   listing: Joi.object({
-//     title: Joi.string().required(),
-//     description: Joi.string().required(),
-//     price: Joi.number().min(0).required(),
-//     location: Joi.string().required(),
-//     country: Joi.string().required(),
-//     image: Joi.string().uri().allow("", null), // optional
-//   }).required(),
-// });
-
-
-// const Joi = require("joi");
-
-// // ✅ Updated Joi schema to accept object { url, filename }
-// module.exports.listingSchema = Joi.object({
-//   listing: Joi.object({
-//     title: Joi.string().required(),
-//     description: Joi.string().allow(""),
-//     price: Joi.number().min(0).required(),
-//     location: Joi.string().allow(""),
-//     country: Joi.string().allow(""),
-//     image: Joi.alternatives().try(
-//       Joi.object({
-//         url: Joi.string().uri().required(),
-//         filename: Joi.string().allow(""),
-//       }),
-//       Joi.string().uri()
-//     ).allow(null),
-//   }).required(),
-// });
-
-// schema.js (or wherever you keep Joi)
 const Joi = require("joi");
 
 module.exports.listingSchema = Joi.object({
@@ -53,19 +19,7 @@ module.exports.listingSchema = Joi.object({
 });
 
 
-// const Joi = require("joi");
 
-// module.exports.listingSchema = Joi.object({
-//   listing: Joi.object({
-//     title: Joi.string().required(),
-//     description: Joi.string().required(),
-//     image: Joi.string().uri().required(),
-//     price: Joi.number().min(0).required(),
-//     location: Joi.string().required(),
-//     country: Joi.string().required(),
-//     image: Joi.string().allow("", null),
-//   }).required()
-// });
 
 module.exports.reviewSchema = Joi.object({
   review: Joi.object({

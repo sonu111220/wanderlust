@@ -1,33 +1,4 @@
-// const express = require("express");
-// const router = express.Router();
-// const passport = require("passport");
-// const User = require("../models/user");
 
-// // Render signup form
-// router.get("/signup", (req, res) => {
-//   res.render("users/signup");
-// });
-
-// // Handle signup logic
-// router.post("/signup", async (req, res, next) => {
-//   try {
-//     const { username, email, password } = req.body;
-//     const user = new User({ username, email });
-//     const registeredUser = await User.register(user, password);
-//     req.login(registeredUser, (err) => {
-//       if (err) return next(err);
-//       req.flash("success", "Welcome to Wanderlust!");
-//       res.redirect("/listings");
-//     });
-//   } catch (e) {
-//     req.flash("error", e.message);
-//     res.redirect("/signup");
-//   }
-// });
-
-// module.exports = router;
-
-// routes/user.js
 const express = require("express");
 const passport = require("passport");
 const User = require("../models/user");
