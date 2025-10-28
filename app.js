@@ -436,9 +436,10 @@ app.use("/", userRouter);
 // ==========================
 // 🚫 404 ERROR HANDLER
 // ==========================
-app.all("/*", (req, res, next) => {
+app.use((req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
 });
+
 
 // ⚠️ GENERIC ERROR HANDLER
 // ==========================
