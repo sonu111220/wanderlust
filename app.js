@@ -425,9 +425,11 @@ app.use((req, res, next) => {
 // ==========================
 // 🧭 ROUTES
 // ==========================
+// 🏠 Redirect root route to all listings
 app.get("/", (req, res) => {
-  res.render("home");
+  res.redirect("/listings");
 });
+
 
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
