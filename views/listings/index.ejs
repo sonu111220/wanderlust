@@ -1,7 +1,3 @@
-
-
-
-
 <% layout('layouts/boilerplate') %>
 
 <div class="container my-1">
@@ -109,23 +105,16 @@
   <!-- 🔹 LISTINGS -->
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
     <% if (listings && listings.length > 0) { %>
-      <% listings.forEach(listing => { 
-          let imageUrl;
-          if (listing.image) {
-            if (typeof listing.image === "string") imageUrl = listing.image;
-            else if (listing.image.url) imageUrl = listing.image.url;
-          } else {
-            imageUrl = "https://via.placeholder.com/600x400?text=No+Image";
-          }
-      %>
+      <% listings.forEach(listing => { %>
         <div class="col">
           <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
             <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
               <img 
-                src="<%= imageUrl %>" 
-                class="card-img-top" 
-                alt="<%= listing.title || 'Listing Image' %>" 
+                src="<%= listing.imageUrl %>" 
+                class="card-img-top"
+                alt="<%= listing.title || 'Listing Image' %>"
                 style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
+                loading="lazy"
                 onmouseover="this.style.transform='scale(1.05)'"
                 onmouseout="this.style.transform='scale(1)'"
               >
@@ -173,6 +162,10 @@
     });
   });
 </script>
+
+
+
+
 
 
 
