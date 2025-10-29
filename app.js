@@ -434,6 +434,24 @@ app.get("/", (req, res) => {
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
+// 🌱 TEMPORARY TEST ROUTE
+app.get("/seed", async (req, res) => {
+  const Listing = require("./models/listing");
+  const sample = new Listing({
+    title: "Sample Apartment",
+    description: "Cozy place in Karachi",
+    price: 1500,
+    location: "Karachi",
+    country: "Pakistan",
+    image: {
+      url: "https://placekitten.com/600/300",
+      filename: "kitten.jpg",
+    },
+  });
+  await sample.save();
+  res.send("✅ Seed listing added!");
+});
+
 
 // ==========================
 // 🚫 404 ERROR HANDLER
