@@ -1,45 +1,4 @@
-<%- include("../partials/header") %>
 
-<div class="container mt-4">
-  <h1 class="mb-4 text-center">Explore Listings</h1>
-
-  <% if (listings && listings.length > 0) { %>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      <% listings.forEach(listing => { %>
-        <div class="col">
-          <div class="card h-100 shadow-sm border-0">
-            <img 
-              src="<%= listing.image || 'https://via.placeholder.com/400x300?text=No+Image' %>" 
-              class="card-img-top" 
-              alt="<%= listing.title %>" 
-              style="height: 200px; object-fit: cover;"
-            >
-            <div class="card-body">
-              <h5 class="card-title text-primary"><%= listing.title %></h5>
-              <p class="card-text text-muted">
-                <%= listing.location %>, <%= listing.country %>
-              </p>
-              <p class="fw-bold">$<%= listing.price %> / night</p>
-            </div>
-            <div class="card-footer bg-transparent border-0 text-center">
-              <a href="/listings/<%= listing._id %>" class="btn btn-outline-primary btn-sm">
-                View Details
-              </a>
-            </div>
-          </div>
-        </div>
-      <% }) %>
-    </div>
-  <% } else { %>
-    <div class="text-center mt-5">
-      <h4>No listings found yet.</h4>
-      <p>Try adding a new one!</p>
-      <a href="/listings/new" class="btn btn-primary mt-3">Add New Listing</a>
-    </div>
-  <% } %>
-</div>
-
-<%- include("../partials/footer") %>
 
 
 
