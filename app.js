@@ -434,23 +434,34 @@ app.get("/", (req, res) => {
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
-// 🌱 TEMPORARY TEST ROUTE
+// 🧪 TEMPORARY TEST ROUTE — Add this inside app.js
 app.get("/seed", async (req, res) => {
-  const Listing = require("./models/listing");
-  const sample = new Listing({
-    title: "Sample Apartment",
-    description: "Cozy place in Karachi",
-    price: 1500,
-    location: "Karachi",
-    country: "Pakistan",
-    image: {
-      url: "https://placekitten.com/600/300",
-      filename: "kitten.jpg",
-    },
-  });
-  await sample.save();
-  res.send("✅ Seed listing added!");
+  try {
+    const Listing = require("./models/listing");
+
+    await Listing.deleteMany({}); // clear old listings
+
+    const sample = new Listing({
+      title: "Sample Apartment",
+      description: "Cozy place in Karachi",
+      price: 1500,
+      location: "Karachi",
+      country: "Pakistan",
+      image: {
+        url: "https://placekitten.com/600/300",
+        filename: "kitten.jpg",
+      },
+    });
+
+    await sample.save();
+    console.log("✅ Seed listing added!");
+    res.send("✅ Seed listing added!");
+  } catch (err) {
+    console.error("❌ Seed error:", err);
+    res.status(500).send("Error seeding database");
+  }
 });
+
 
 
 // ==========================
