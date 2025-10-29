@@ -1,8 +1,9 @@
+
+
+
 <% layout('layouts/boilerplate') %>
 
 <div class="container my-1">
-  <pre><%= JSON.stringify(listings, null, 2) %></pre>
-
   <style>
     #filter-bar {
       display: flex;
@@ -86,42 +87,15 @@
   <!-- 🔹 FILTER BAR + TOGGLE -->
   <div id="filter-bar">
     <div id="filters">
-      <div class="filter">
-        <div><i class="fa-solid fa-fire"></i></div>
-        <p>Trending</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-bed"></i></div>
-        <p>Rooms</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-mountain-city"></i></div>
-        <p>Iconic Cities</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-mountain"></i></div>
-        <p>Mountains</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-brands fa-fort-awesome"></i></div>
-        <p>Castles</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-person-swimming"></i></div>
-        <p>Amazing Pools</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-campground"></i></div>
-        <p>Camping</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-cow"></i></div>
-        <p>Farm</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-regular fa-snowflake"></i></div>
-        <p>Arctic</p>
-      </div>
+      <div class="filter"><div><i class="fa-solid fa-fire"></i></div><p>Trending</p></div>
+      <div class="filter"><div><i class="fa-solid fa-bed"></i></div><p>Rooms</p></div>
+      <div class="filter"><div><i class="fa-solid fa-mountain-city"></i></div><p>Iconic Cities</p></div>
+      <div class="filter"><div><i class="fa-solid fa-mountain"></i></div><p>Mountains</p></div>
+      <div class="filter"><div><i class="fa-brands fa-fort-awesome"></i></div><p>Castles</p></div>
+      <div class="filter"><div><i class="fa-solid fa-person-swimming"></i></div><p>Pools</p></div>
+      <div class="filter"><div><i class="fa-solid fa-campground"></i></div><p>Camping</p></div>
+      <div class="filter"><div><i class="fa-solid fa-cow"></i></div><p>Farm</p></div>
+      <div class="filter"><div><i class="fa-regular fa-snowflake"></i></div><p>Arctic</p></div>
     </div>
 
     <!-- Toggle Button -->
@@ -133,40 +107,49 @@
 
   <!-- 🔹 LISTINGS -->
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
-    <% listings.forEach(listing => { 
-        let imageUrl;
-        if (listing.image) {
-          if (typeof listing.image === "string") imageUrl = listing.image;
-          else if (listing.image.url) imageUrl = listing.image.url;
-        } else {
-          imageUrl = "https://via.placeholder.com/600x400?text=No+Image";
-        }
-    %>
-      <div class="col">
-        <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
-          <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
-            <img 
-              src="<%= imageUrl %>" 
-              class="card-img-top" 
-              alt="<%= listing.title %>" 
-              style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
-              onmouseover="this.style.transform='scale(1.05)'"
-              onmouseout="this.style.transform='scale(1)'"
-            >
-            <div class="card-body">
-              <h5 class="card-title fw-semibold mb-1"><%= listing.title %></h5>
-              <p class="text-success fw-semibold mb-1 price-text" data-price="<%= listing.price %>">
-                ₨ <%= listing.price.toLocaleString('en-PK') %> / night
-              </p>
-              <p class="small text-secondary mb-0">
-                <i class="fa-solid fa-location-dot me-1"></i>
-                <%= listing.location %>, <%= listing.country %>
-              </p>
-            </div>
-          </a>
+    <% if (listings && listings.length > 0) { %>
+      <% listings.forEach(listing => { 
+          let imageUrl;
+          if (listing.image) {
+            if (typeof listing.image === "string") imageUrl = listing.image;
+            else if (listing.image.url) imageUrl = listing.image.url;
+          } else {
+            imageUrl = "https://via.placeholder.com/600x400?text=No+Image";
+          }
+      %>
+        <div class="col">
+          <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
+            <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+              <img 
+                src="<%= imageUrl %>" 
+                class="card-img-top" 
+                alt="<%= listing.title || 'Listing Image' %>" 
+                style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
+                onmouseover="this.style.transform='scale(1.05)'"
+                onmouseout="this.style.transform='scale(1)'"
+              >
+              <div class="card-body">
+                <h5 class="card-title fw-semibold mb-1"><%= listing.title || 'Untitled Listing' %></h5>
+                <p class="text-success fw-semibold mb-1 price-text" data-price="<%= listing.price || 0 %>">
+                  ₨ <%= listing.price ? listing.price.toLocaleString('en-PK') : 'N/A' %> / night
+                </p>
+                <p class="small text-secondary mb-0">
+                  <i class="fa-solid fa-location-dot me-1"></i>
+                  <%= listing.location || 'Unknown Location' %>, 
+                  <%= listing.country || 'N/A' %>
+                </p>
+              </div>
+            </a>
+          </div>
         </div>
+      <% }) %>
+    <% } else { %>
+      <div class="text-center text-muted my-5">
+        <i class="fa-solid fa-circle-exclamation fa-2x mb-3"></i>
+        <h5>No listings found yet.</h5>
+        <p class="small">Try adding a new one!</p>
       </div>
-    <% }) %>
+    <% } %>
   </div>
 </div>
 
@@ -178,6 +161,8 @@
   toggle.addEventListener('change', function () {
     prices.forEach(priceEl => {
       const basePrice = parseFloat(priceEl.dataset.price);
+      if (isNaN(basePrice) || basePrice === 0) return;
+
       if (this.checked) {
         const gstPrice = Math.round(basePrice * 1.18); // 18% GST
         priceEl.innerHTML = `₨ ${gstPrice.toLocaleString('en-PK')} (incl. GST 18%) / night`;
@@ -187,8 +172,6 @@
     });
   });
 </script>
-
-
 
 
 
