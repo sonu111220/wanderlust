@@ -1,23 +1,43 @@
 <% layout("layouts/boilerplate") %>
 
-<div class="container mt-5">
-  <h3 class="text-center mb-4">Register</h3>
-  <form action="/register" method="POST" class="col-md-6 offset-md-3">
-    <div class="mb-3">
-      <label class="form-label">Username</label>
-      <input type="text" name="username" class="form-control" required>
+<div class="container mt-5 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card shadow-lg border-0 rounded-4 p-4" style="width: 100%; max-width: 420px;">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold text-danger">Wanderlust</h2>
+      <p class="text-muted">Create your account to start exploring</p>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Email</label>
-      <input type="email" name="email" class="form-control" required>
-    </div>
+    <form action="/register" method="POST">
+      <!-- 🧑 Username -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Choose a username" required>
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label">Password</label>
-      <input type="password" name="password" class="form-control" required>
-    </div>
+      <!-- 📧 Email -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Email</label>
+        <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+      </div>
 
-    <button class="btn btn-primary w-100">Register</button>
-  </form>
+      <!-- 🔒 Password -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Create a password" required>
+      </div>
+
+      <!-- 🚀 Submit -->
+      <button type="submit" class="btn btn-danger w-100 fw-semibold">
+        Register
+      </button>
+    </form>
+
+    <div class="text-center mt-3">
+      <p class="text-muted mb-0">
+        Already have an account? 
+        <a href="/login" class="text-danger fw-semibold text-decoration-none">Login</a>
+      </p>
+    </div>
+  </div>
 </div>
+
