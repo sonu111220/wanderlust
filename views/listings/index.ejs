@@ -1,107 +1,6 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="container my-1">
-  <style>
-    #filter-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-
-    #filters {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      overflow-x: auto;
-      scrollbar-width: thin;
-    }
-
-    .filter {
-      text-align: center;
-      margin-right: 1.5rem;
-      opacity: 0.7;
-      transition: all 0.3s ease;
-    }
-
-    .filter:hover {
-      opacity: 1;
-      cursor: pointer;
-      transform: translateY(-2px);
-    }
-
-    .filter p {
-      font-size: 0.8rem;
-      margin-top: 4px;
-    }
-
-    /* Toggle Button */
-    .toggle-wrapper {
-      display: flex;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-
-    .toggle-label {
-      margin-left: 0.5rem;
-      font-weight: 500;
-    }
-
-    .toggle-input {
-      width: 45px;
-      height: 22px;
-      appearance: none;
-      background-color: #ccc;
-      border-radius: 50px;
-      position: relative;
-      cursor: pointer;
-      outline: none;
-      transition: background-color 0.3s;
-    }
-
-    .toggle-input::before {
-      content: "";
-      position: absolute;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      top: 2px;
-      left: 2px;
-      background-color: white;
-      transition: transform 0.3s;
-    }
-
-    .toggle-input:checked {
-      background-color: #4CAF50;
-    }
-
-    .toggle-input:checked::before {
-      transform: translateX(23px);
-    }
-  </style>
-
-  <!-- 🔹 FILTER BAR + TOGGLE -->
-  <div id="filter-bar">
-    <div id="filters">
-      <div class="filter"><div><i class="fa-solid fa-fire"></i></div><p>Trending</p></div>
-      <div class="filter"><div><i class="fa-solid fa-bed"></i></div><p>Rooms</p></div>
-      <div class="filter"><div><i class="fa-solid fa-mountain-city"></i></div><p>Iconic Cities</p></div>
-      <div class="filter"><div><i class="fa-solid fa-mountain"></i></div><p>Mountains</p></div>
-      <div class="filter"><div><i class="fa-brands fa-fort-awesome"></i></div><p>Castles</p></div>
-      <div class="filter"><div><i class="fa-solid fa-person-swimming"></i></div><p>Pools</p></div>
-      <div class="filter"><div><i class="fa-solid fa-campground"></i></div><p>Camping</p></div>
-      <div class="filter"><div><i class="fa-solid fa-cow"></i></div><p>Farm</p></div>
-      <div class="filter"><div><i class="fa-regular fa-snowflake"></i></div><p>Arctic</p></div>
-    </div>
-
-    <!-- Toggle Button -->
-    <div class="toggle-wrapper">
-      <input type="checkbox" id="taxToggle" class="toggle-input">
-      <label for="taxToggle" class="toggle-label">Display total after taxes</label>
-    </div>
-  </div>
-
   <!-- 🔹 LISTINGS GRID -->
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
     <% if (listings && listings.length > 0) { %>
@@ -110,9 +9,11 @@
           <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
             <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
 
-              <!-- ✅ Dynamic Image Handling -->
+              <!-- ✅ FIXED IMAGE TAG -->
               <img
-                src="<%= listing.image?.url || listing.imageUrl || 'https://placekitten.com/600/300' %>"
+                src="<%= typeof listing.image === 'string'
+                      ? listing.image
+                      : listing.image?.url || listing.imageUrl || 'https://placekitten.com/600/300' %>"
                 class="card-img-top"
                 alt="<%= listing.title || 'Listing Image' %>"
                 style="height: 280px; object-fit: cover; transition: transform 0.3s;"
@@ -122,14 +23,10 @@
               />
 
               <div class="card-body">
-                <h5 class="card-title fw-semibold mb-1">
-                  <%= listing.title || 'Untitled Listing' %>
-                </h5>
-
-                <p class="text-success fw-semibold mb-1 price-text" data-price="<%= listing.price || 0 %>">
+                <h5 class="card-title fw-semibold mb-1"><%= listing.title || 'Untitled Listing' %></h5>
+                <p class="text-success fw-semibold mb-1">
                   ₨ <%= listing.price ? listing.price.toLocaleString('en-PK') : 'N/A' %> / night
                 </p>
-
                 <p class="small text-secondary mb-0">
                   <i class="fa-solid fa-location-dot me-1"></i>
                   <%= listing.location || 'Unknown Location' %>, 
@@ -150,25 +47,6 @@
   </div>
 </div>
 
-<!-- 🔹 JS Script for GST Toggle -->
-<script>
-  const toggle = document.getElementById('taxToggle');
-  const prices = document.querySelectorAll('.price-text');
-
-  toggle.addEventListener('change', function () {
-    prices.forEach(priceEl => {
-      const basePrice = parseFloat(priceEl.dataset.price);
-      if (isNaN(basePrice) || basePrice === 0) return;
-
-      if (this.checked) {
-        const gstPrice = Math.round(basePrice * 1.18); // 18% GST
-        priceEl.innerHTML = `₨ ${gstPrice.toLocaleString('en-PK')} (incl. GST 18%) / night`;
-      } else {
-        priceEl.innerHTML = `₨ ${basePrice.toLocaleString('en-PK')} / night`;
-      }
-    });
-  });
-</script>
 
 
 
