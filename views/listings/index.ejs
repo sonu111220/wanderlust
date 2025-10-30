@@ -36,7 +36,6 @@
       margin-top: 4px;
     }
 
-    /* Toggle Button */
     .toggle-wrapper {
       display: flex;
       align-items: center;
@@ -81,7 +80,7 @@
     }
   </style>
 
-  <!-- 🔹 FILTER BAR + TOGGLE -->
+  <!-- 🔹 FILTER BAR -->
   <div id="filter-bar">
     <div id="filters">
       <div class="filter"><div><i class="fa-solid fa-fire"></i></div><p>Trending</p></div>
@@ -95,50 +94,54 @@
       <div class="filter"><div><i class="fa-regular fa-snowflake"></i></div><p>Arctic</p></div>
     </div>
 
-    <!-- Toggle Button -->
     <div class="toggle-wrapper">
       <input type="checkbox" id="taxToggle" class="toggle-input">
       <label for="taxToggle" class="toggle-label">Display total after taxes</label>
     </div>
   </div>
 
-  <!-- 🔹 LISTINGS GRID -->
+  <!-- 🔹 LISTINGS -->
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
     <% if (listings && listings.length > 0) { %>
-      <% listings.forEach(listing => { %>
-        <div class="col">
-          <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
-            <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+      <% listings.forEach(listing => { 
+        // Determine safe image URL
+        let imgSrc;
+        if (listing.image) {
+          if (typeof listing.image === 'string') imgSrc = listing.image;
+          else if (listing.image.url) imgSrc = listing.image.url;
+          else imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
+        } else {
+          imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
+        }
+      %>
 
-              <!-- ✅ Dynamic Image Handling -->
-              <img
-                src="<%= listing.image?.url || listing.imageUrl || 'https://placekitten.com/600/300' %>"
-                class="card-img-top"
-                alt="<%= listing.title || 'Listing Image' %>"
-                style="height: 280px; object-fit: cover; transition: transform 0.3s;"
-                loading="lazy"
-                onmouseover="this.style.transform='scale(1.05)'"
-                onmouseout="this.style.transform='scale(1)'"
-              />
-
-              <div class="card-body">
-                <h5 class="card-title fw-semibold mb-1">
-                  <%= listing.title || 'Untitled Listing' %>
-                </h5>
-
-                <p class="text-success fw-semibold mb-1 price-text" data-price="<%= listing.price || 0 %>">
-                  ₨ <%= listing.price ? listing.price.toLocaleString('en-PK') : 'N/A' %> / night
-                </p>
-
-                <p class="small text-secondary mb-0">
-                  <i class="fa-solid fa-location-dot me-1"></i>
-                  <%= listing.location || 'Unknown Location' %>, 
-                  <%= listing.country || 'N/A' %>
-                </p>
-              </div>
-            </a>
-          </div>
+      <div class="col">
+        <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
+          <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+            <img 
+              src="<%= imgSrc %>"
+              class="card-img-top"
+              alt="<%= listing.title || 'Listing Image' %>"
+              style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
+              loading="lazy"
+              onmouseover="this.style.transform='scale(1.05)'"
+              onmouseout="this.style.transform='scale(1)'"
+            >
+            <div class="card-body">
+              <h5 class="card-title fw-semibold mb-1"><%= listing.title || 'Untitled Listing' %></h5>
+              <p class="text-success fw-semibold mb-1 price-text" data-price="<%= listing.price || 0 %>">
+                ₨ <%= listing.price ? listing.price.toLocaleString('en-PK') : 'N/A' %> / night
+              </p>
+              <p class="small text-secondary mb-0">
+                <i class="fa-solid fa-location-dot me-1"></i>
+                <%= listing.location || 'Unknown Location' %>, 
+                <%= listing.country || 'N/A' %>
+              </p>
+            </div>
+          </a>
         </div>
+      </div>
+
       <% }) %>
     <% } else { %>
       <div class="text-center text-muted my-5">
@@ -150,7 +153,7 @@
   </div>
 </div>
 
-<!-- 🔹 JS Script for GST Toggle -->
+<!-- 🔹 GST Toggle Script -->
 <script>
   const toggle = document.getElementById('taxToggle');
   const prices = document.querySelectorAll('.price-text');
@@ -161,7 +164,7 @@
       if (isNaN(basePrice) || basePrice === 0) return;
 
       if (this.checked) {
-        const gstPrice = Math.round(basePrice * 1.18); // 18% GST
+        const gstPrice = Math.round(basePrice * 1.18);
         priceEl.innerHTML = `₨ ${gstPrice.toLocaleString('en-PK')} (incl. GST 18%) / night`;
       } else {
         priceEl.innerHTML = `₨ ${basePrice.toLocaleString('en-PK')} / night`;
@@ -169,6 +172,7 @@
     });
   });
 </script>
+
 
 
 
