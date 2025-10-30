@@ -434,33 +434,53 @@ app.get("/", (req, res) => {
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
-// 🧪 TEMPORARY TEST ROUTE — Add this inside app.js
+// ✅ TEMPORARY SEED ROUTE
 app.get("/seed", async (req, res) => {
-  try {
-    const Listing = require("./models/listing");
+  const Listing = require("./models/listing");
 
-    await Listing.deleteMany({}); // clear old listings
+  await Listing.deleteMany({}); // clear old data
 
-    const sample = new Listing({
-      title: "Sample Apartment",
-      description: "Cozy place in Karachi",
-      price: 1500,
+  const sampleListings = [
+    {
+      title: "Luxury Beach Villa",
+      description: "Beautiful beachfront villa with private pool and sea view.",
+      price: 25000,
+      location: "Maldives",
+      country: "Maldives",
+      image: {
+        url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+        filename: "beach_villa.jpg",
+      },
+    },
+    {
+      title: "Mountain Cabin",
+      description: "Cozy wooden cabin surrounded by pine trees and mountains.",
+      price: 8000,
+      location: "Hunza",
+      country: "Pakistan",
+      image: {
+        url: "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+        filename: "mountain_cabin.jpg",
+      },
+    },
+    {
+      title: "City Apartment",
+      description: "Modern apartment in the heart of the city.",
+      price: 12000,
       location: "Karachi",
       country: "Pakistan",
       image: {
-        url: "https://placekitten.com/600/300",
-        filename: "kitten.jpg",
+        url: "https://images.unsplash.com/photo-1494526585095-c41746248156",
+        filename: "city_apartment.jpg",
       },
-    });
+    },
+  ];
 
-    await sample.save();
-    console.log("✅ Seed listing added!");
-    res.send("✅ Seed listing added!");
-  } catch (err) {
-    console.error("❌ Seed error:", err);
-    res.status(500).send("Error seeding database");
-  }
+  await Listing.insertMany(sampleListings);
+
+  res.send("✅ Seed data added successfully!");
 });
+
 
 
 
