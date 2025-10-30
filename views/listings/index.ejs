@@ -102,28 +102,24 @@
     </div>
   </div>
 
-  <!-- 🔹 LISTINGS -->
+  <!-- 🔹 LISTINGS GRID -->
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
     <% if (listings && listings.length > 0) { %>
       <% listings.forEach(listing => { %>
         <div class="col">
           <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
             <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
-              <pre><%= JSON.stringify(listing.image) %></pre>
 
               <!-- ✅ Dynamic Image Handling -->
-   src="<%= listing.image?.url || 'https://placekitten.com/600/300' %>"
-
-
-  class="card-img-top"
-  alt="<%= listing.title || 'Listing Image' %>"
-  style="height: 280px; object-fit: cover; transition: transform 0.3s;"
-  loading="lazy"
-  onmouseover="this.style.transform='scale(1.05)'"
-  onmouseout="this.style.transform='scale(1)'"
-/>
-
-
+              <img
+                src="<%= listing.image?.url || listing.imageUrl || 'https://placekitten.com/600/300' %>"
+                class="card-img-top"
+                alt="<%= listing.title || 'Listing Image' %>"
+                style="height: 280px; object-fit: cover; transition: transform 0.3s;"
+                loading="lazy"
+                onmouseover="this.style.transform='scale(1.05)'"
+                onmouseout="this.style.transform='scale(1)'"
+              />
 
               <div class="card-body">
                 <h5 class="card-title fw-semibold mb-1">
@@ -173,6 +169,7 @@
     });
   });
 </script>
+
 
 
 
