@@ -110,7 +110,8 @@
           <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
             <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
               <img 
-                src="<%= listing.imageUrl %>" 
+  src="<%= listing.image && listing.image.url ? listing.image.url : 'https://via.placeholder.com/600x300?text=No+Image' %>"
+
                 class="card-img-top"
                 alt="<%= listing.title || 'Listing Image' %>"
                 style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
