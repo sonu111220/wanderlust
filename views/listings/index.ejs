@@ -112,15 +112,8 @@
               <pre><%= JSON.stringify(listing.image) %></pre>
 
               <!-- ✅ Dynamic Image Handling -->
-     <img
-  src="<%= listing.image && listing.image.url ? listing.image.url : 'https://via.placeholder.com/600x300?text=No+Image' %>"
-  alt="<%= listing.title || 'Listing Image' %>"
-  class="card-img-top"
-  style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
-  loading="lazy"
-  onmouseover="this.style.transform='scale(1.05)'"
-  onmouseout="this.style.transform='scale(1)'"
-/>
+   src="<%= listing.image?.url || 'https://placekitten.com/600/300' %>"
+
 
   class="card-img-top"
   alt="<%= listing.title || 'Listing Image' %>"
