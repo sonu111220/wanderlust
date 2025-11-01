@@ -81,62 +81,73 @@
   </style>
 
   <!-- 🔹 FILTER BAR -->
-  <div class="container my-4">
-  <!-- 🔹 Filter Bar -->
-  <div id="filter-bar" class="d-flex justify-content-between align-items-center flex-wrap mb-3">
-    <div id="filters" class="d-flex flex-wrap align-items-center">
-      <div class="filter"><i class="fa-solid fa-fire"></i><p>Trending</p></div>
-      <div class="filter"><i class="fa-solid fa-bed"></i><p>Rooms</p></div>
-      <div class="filter"><i class="fa-solid fa-mountain-city"></i><p>Iconic Cities</p></div>
-      <div class="filter"><i class="fa-solid fa-mountain"></i><p>Mountains</p></div>
-      <div class="filter"><i class="fa-brands fa-fort-awesome"></i><p>Castles</p></div>
-      <div class="filter"><i class="fa-solid fa-person-swimming"></i><p>Pools</p></div>
-      <div class="filter"><i class="fa-solid fa-campground"></i><p>Camping</p></div>
-      <div class="filter"><i class="fa-solid fa-cow"></i><p>Farm</p></div>
-      <div class="filter"><i class="fa-regular fa-snowflake"></i><p>Arctic</p></div>
+  <div id="filter-bar">
+    <div id="filters">
+      <div class="filter"><div><i class="fa-solid fa-fire"></i></div><p>Trending</p></div>
+      <div class="filter"><div><i class="fa-solid fa-bed"></i></div><p>Rooms</p></div>
+      <div class="filter"><div><i class="fa-solid fa-mountain-city"></i></div><p>Iconic Cities</p></div>
+      <div class="filter"><div><i class="fa-solid fa-mountain"></i></div><p>Mountains</p></div>
+      <div class="filter"><div><i class="fa-brands fa-fort-awesome"></i></div><p>Castles</p></div>
+      <div class="filter"><div><i class="fa-solid fa-person-swimming"></i></div><p>Pools</p></div>
+      <div class="filter"><div><i class="fa-solid fa-campground"></i></div><p>Camping</p></div>
+      <div class="filter"><div><i class="fa-solid fa-cow"></i></div><p>Farm</p></div>
+      <div class="filter"><div><i class="fa-regular fa-snowflake"></i></div><p>Arctic</p></div>
     </div>
 
-    <div class="toggle-wrapper d-flex align-items-center">
-      <input type="checkbox" id="taxToggle" class="toggle-input me-2">
+    <div class="toggle-wrapper">
+      <input type="checkbox" id="taxToggle" class="toggle-input">
       <label for="taxToggle" class="toggle-label">Display total after taxes</label>
     </div>
   </div>
 
-  <!-- 🔹 Listings Grid -->
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+  <!-- 🔹 LISTINGS -->
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
     <% if (listings && listings.length > 0) { %>
-      <% listings.forEach(listing => { %>
-        <div class="col">
-          <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
-            <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
-              
-              <!-- ✅ IMAGE FIX -->
-              <img
-                src="<%= listing.image?.url || listing.image || 'https://via.placeholder.com/600x300?text=No+Image' %>"
-                alt="<%= listing.title || 'Listing Image' %>"
-                class="card-img-top"
-                style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
-                loading="lazy"
-                onmouseover="this.style.transform='scale(1.05)'"
-                onmouseout="this.style.transform='scale(1)'"
-              >
+      <% listings.forEach(listing => { 
+        let imgSrc;
 
-              <div class="card-body">
-                <h5 class="card-title fw-semibold mb-1">
-                  <%= listing.title || 'Untitled Listing' %>
-                </h5>
-                <p class="text-success fw-semibold mb-1 price-text" data-price="<%= listing.price || 0 %>">
-                  ₨ <%= listing.price ? listing.price.toLocaleString('en-PK') : 'N/A' %> / night
-                </p>
-                <p class="small text-secondary mb-0">
-                  <i class="fa-solid fa-location-dot me-1"></i>
-                  <%= listing.location || 'Unknown Location' %>, 
-                  <%= listing.country || 'N/A' %>
-                </p>
-              </div>
-            </a>
-          </div>
+        if (listing.image) {
+          if (Array.isArray(listing.image)) {
+            imgSrc = listing.image[0]?.url || "https://via.placeholder.com/600x300?text=No+Image";
+          } else if (typeof listing.image === "object" && listing.image.url) {
+            imgSrc = listing.image.url;
+          } else if (typeof listing.image === "string") {
+            imgSrc = listing.image;
+          } else {
+            imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
+          }
+        } else {
+          imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
+        }
+      %>
+
+      <div class="col">
+        <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
+          <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+            <img 
+              src="<%= imgSrc %>"
+              class="card-img-top"
+              alt="<%= listing.title || 'Listing Image' %>"
+              style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
+              loading="lazy"
+              onmouseover="this.style.transform='scale(1.05)'"
+              onmouseout="this.style.transform='scale(1)'"
+            >
+            <div class="card-body">
+              <h5 class="card-title fw-semibold mb-1"><%= listing.title || 'Untitled Listing' %></h5>
+              <p class="text-success fw-semibold mb-1 price-text" data-price="<%= listing.price || 0 %>">
+                ₨ <%= listing.price ? listing.price.toLocaleString('en-PK') : 'N/A' %> / night
+              </p>
+              <p class="small text-secondary mb-0">
+                <i class="fa-solid fa-location-dot me-1"></i>
+                <%= listing.location || 'Unknown Location' %>, 
+                <%= listing.country || 'N/A' %>
+              </p>
+            </div>
+          </a>
         </div>
+      </div>
+
       <% }) %>
     <% } else { %>
       <div class="text-center text-muted my-5">
@@ -167,6 +178,7 @@
     });
   });
 </script>
+
 
 
 
