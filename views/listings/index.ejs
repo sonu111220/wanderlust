@@ -124,15 +124,16 @@
       <div class="col">
         <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
           <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
-            <img 
-              src="<%= imgSrc %>"
-              class="card-img-top"
-              alt="<%= listing.title || 'Listing Image' %>"
-              style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
-              loading="lazy"
-              onmouseover="this.style.transform='scale(1.05)'"
-              onmouseout="this.style.transform='scale(1)'"
-            >
+          <img
+  src="<%= listing.image?.url || 'https://via.placeholder.com/600x300?text=No+Image' %>"
+  alt="<%= listing.title || 'Listing Image' %>"
+  class="card-img-top"
+  style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
+  loading="lazy"
+  onmouseover="this.style.transform='scale(1.05)'"
+  onmouseout="this.style.transform='scale(1)'"
+/>
+
             <div class="card-body">
               <h5 class="card-title fw-semibold mb-1"><%= listing.title || 'Untitled Listing' %></h5>
               <p class="text-success fw-semibold mb-1 price-text" data-price="<%= listing.price || 0 %>">
