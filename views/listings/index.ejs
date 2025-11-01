@@ -3,11 +3,13 @@
 <div class="container my-5">
   <h1 class="text-center fw-bold mb-4">🌍 Explore All Listings</h1>
 
-  <!-- Debug: check if data is coming -->
-  <pre style="background:#f8f9fa;padding:10px;border-radius:6px;"><%= JSON.stringify(listings, null, 2) %></pre>
+  <!-- Debug: confirm EJS is receiving listings -->
+  <pre style="background:#f8f9fa;padding:10px;border-radius:6px;">
+<%= JSON.stringify(listings, null, 2) %>
+  </pre>
 
   <% if (listings && listings.length > 0) { %>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
       <% listings.forEach(listing => { 
         let imgSrc;
 
@@ -21,13 +23,19 @@
       %>
         <div class="col">
           <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
-            <img src="<%= imgSrc %>" class="card-img-top" alt="<%= listing.title %>" style="object-fit: cover; height: 200px;">
-            <div class="card-body">
-              <h5 class="card-title fw-bold"><%= listing.title %></h5>
-              <p class="text-muted mb-1"><%= listing.location %>, <%= listing.country %></p>
-              <p class="fw-semibold">$<%= listing.price %> / night</p>
-              <a href="/listings/<%= listing._id %>" class="btn btn-outline-primary btn-sm">View Details</a>
-            </div>
+            <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+              <img 
+                src="<%= imgSrc %>" 
+                class="card-img-top" 
+                alt="<%= listing.title %>" 
+                style="object-fit: cover; height: 200px;"
+              >
+              <div class="card-body">
+                <h5 class="card-title fw-bold"><%= listing.title %></h5>
+                <p class="text-muted mb-1"><%= listing.location %>, <%= listing.country %></p>
+                <p class="fw-semibold">₨ <%= listing.price.toLocaleString('en-PK') %> / night</p>
+              </div>
+            </a>
           </div>
         </div>
       <% }) %>
@@ -39,6 +47,7 @@
     </div>
   <% } %>
 </div>
+
 
 
 
