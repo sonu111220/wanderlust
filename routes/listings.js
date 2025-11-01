@@ -142,6 +142,8 @@ router.get(
   wrapAsync(async (req, res) => {
     const listings = await Listing.find({});
     console.log("✅ Listings fetched:", listings.length);
+    console.log(listings);
+
 
     // Render all listings
     res.render("listings/index", { listings });
