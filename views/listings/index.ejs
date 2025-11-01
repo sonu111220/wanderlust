@@ -1,183 +1,45 @@
-<% layout('layouts/boilerplate') %>
+<% layout("layouts/boilerplate") %>
 
-<div class="container my-1">
-  <style>
-    #filter-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
+<div class="container my-5">
+  <h1 class="text-center fw-bold mb-4">🌍 Explore All Listings</h1>
 
-    #filters {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      overflow-x: auto;
-      scrollbar-width: thin;
-    }
+  <!-- Debug: check if data is coming -->
+  <pre style="background:#f8f9fa;padding:10px;border-radius:6px;"><%= JSON.stringify(listings, null, 2) %></pre>
 
-    .filter {
-      text-align: center;
-      margin-right: 1.5rem;
-      opacity: 0.7;
-      transition: all 0.3s ease;
-    }
-
-    .filter:hover {
-      opacity: 1;
-      cursor: pointer;
-      transform: translateY(-2px);
-    }
-
-    .filter p {
-      font-size: 0.8rem;
-      margin-top: 4px;
-    }
-
-    .toggle-wrapper {
-      display: flex;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-
-    .toggle-label {
-      margin-left: 0.5rem;
-      font-weight: 500;
-    }
-
-    .toggle-input {
-      width: 45px;
-      height: 22px;
-      appearance: none;
-      background-color: #ccc;
-      border-radius: 50px;
-      position: relative;
-      cursor: pointer;
-      outline: none;
-      transition: background-color 0.3s;
-    }
-
-    .toggle-input::before {
-      content: "";
-      position: absolute;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      top: 2px;
-      left: 2px;
-      background-color: white;
-      transition: transform 0.3s;
-    }
-
-    .toggle-input:checked {
-      background-color: #4CAF50;
-    }
-
-    .toggle-input:checked::before {
-      transform: translateX(23px);
-    }
-  </style>
-
-  <!-- 🔹 FILTER BAR -->
-  <div id="filter-bar">
-    <div id="filters">
-      <div class="filter"><div><i class="fa-solid fa-fire"></i></div><p>Trending</p></div>
-      <div class="filter"><div><i class="fa-solid fa-bed"></i></div><p>Rooms</p></div>
-      <div class="filter"><div><i class="fa-solid fa-mountain-city"></i></div><p>Iconic Cities</p></div>
-      <div class="filter"><div><i class="fa-solid fa-mountain"></i></div><p>Mountains</p></div>
-      <div class="filter"><div><i class="fa-brands fa-fort-awesome"></i></div><p>Castles</p></div>
-      <div class="filter"><div><i class="fa-solid fa-person-swimming"></i></div><p>Pools</p></div>
-      <div class="filter"><div><i class="fa-solid fa-campground"></i></div><p>Camping</p></div>
-      <div class="filter"><div><i class="fa-solid fa-cow"></i></div><p>Farm</p></div>
-      <div class="filter"><div><i class="fa-regular fa-snowflake"></i></div><p>Arctic</p></div>
-    </div>
-
-    <div class="toggle-wrapper">
-      <input type="checkbox" id="taxToggle" class="toggle-input">
-      <label for="taxToggle" class="toggle-label">Display total after taxes</label>
-    </div>
-  </div>
-
-  <!-- 🔹 LISTINGS -->
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
-    <% if (listings && listings.length > 0) { %>
+  <% if (listings && listings.length > 0) { %>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
       <% listings.forEach(listing => { 
         let imgSrc;
 
         if (listing.image) {
-          if (Array.isArray(listing.image)) {
-            imgSrc = listing.image[0]?.url || "https://via.placeholder.com/600x300?text=No+Image";
-          } else if (typeof listing.image === "object" && listing.image.url) {
-            imgSrc = listing.image.url;
-          } else if (typeof listing.image === "string") {
-            imgSrc = listing.image;
-          } else {
-            imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
-          }
+          if (typeof listing.image === "string") imgSrc = listing.image;
+          else if (listing.image.url) imgSrc = listing.image.url;
+          else imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
         } else {
           imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
         }
       %>
-
-      <div class="col">
-        <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
-          <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
-            <img 
-              src="<%= imgSrc %>"
-              class="card-img-top"
-              alt="<%= listing.title || 'Listing Image' %>"
-              style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
-              loading="lazy"
-              onmouseover="this.style.transform='scale(1.05)'"
-              onmouseout="this.style.transform='scale(1)'"
-            >
+        <div class="col">
+          <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+            <img src="<%= imgSrc %>" class="card-img-top" alt="<%= listing.title %>" style="object-fit: cover; height: 200px;">
             <div class="card-body">
-              <h5 class="card-title fw-semibold mb-1"><%= listing.title || 'Untitled Listing' %></h5>
-              <p class="text-success fw-semibold mb-1 price-text" data-price="<%= listing.price || 0 %>">
-                ₨ <%= listing.price ? listing.price.toLocaleString('en-PK') : 'N/A' %> / night
-              </p>
-              <p class="small text-secondary mb-0">
-                <i class="fa-solid fa-location-dot me-1"></i>
-                <%= listing.location || 'Unknown Location' %>, 
-                <%= listing.country || 'N/A' %>
-              </p>
+              <h5 class="card-title fw-bold"><%= listing.title %></h5>
+              <p class="text-muted mb-1"><%= listing.location %>, <%= listing.country %></p>
+              <p class="fw-semibold">$<%= listing.price %> / night</p>
+              <a href="/listings/<%= listing._id %>" class="btn btn-outline-primary btn-sm">View Details</a>
             </div>
-          </a>
+          </div>
         </div>
-      </div>
-
       <% }) %>
-    <% } else { %>
-      <div class="text-center text-muted my-5">
-        <i class="fa-solid fa-circle-exclamation fa-2x mb-3"></i>
-        <h5>No listings found yet.</h5>
-        <p class="small">Try adding a new one!</p>
-      </div>
-    <% } %>
-  </div>
+    </div>
+  <% } else { %>
+    <div class="text-center mt-5">
+      <h4>No listings found 😢</h4>
+      <a href="/listings/new" class="btn btn-success mt-3">Create New Listing</a>
+    </div>
+  <% } %>
 </div>
 
-<!-- 🔹 GST Toggle Script -->
-<script>
-  const toggle = document.getElementById('taxToggle');
-  const prices = document.querySelectorAll('.price-text');
-
-  toggle.addEventListener('change', function () {
-    prices.forEach(priceEl => {
-      const basePrice = parseFloat(priceEl.dataset.price);
-      if (isNaN(basePrice) || basePrice === 0) return;
-
-      if (this.checked) {
-        const gstPrice = Math.round(basePrice * 1.18);
-        priceEl.innerHTML = `₨ ${gstPrice.toLocaleString('en-PK')} (incl. GST 18%) / night`;
-      } else {
-        priceEl.innerHTML = `₨ ${basePrice.toLocaleString('en-PK')} / night`;
-      }
-    });
-  });
-</script>
 
 
 
