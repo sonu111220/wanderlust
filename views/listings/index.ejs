@@ -104,12 +104,18 @@
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
     <% if (listings && listings.length > 0) { %>
       <% listings.forEach(listing => { 
-        // Determine safe image URL
         let imgSrc;
+
         if (listing.image) {
-          if (typeof listing.image === 'string') imgSrc = listing.image;
-          else if (listing.image.url) imgSrc = listing.image.url;
-          else imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
+          if (Array.isArray(listing.image)) {
+            imgSrc = listing.image[0]?.url || "https://via.placeholder.com/600x300?text=No+Image";
+          } else if (typeof listing.image === "object" && listing.image.url) {
+            imgSrc = listing.image.url;
+          } else if (typeof listing.image === "string") {
+            imgSrc = listing.image;
+          } else {
+            imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
+          }
         } else {
           imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
         }
