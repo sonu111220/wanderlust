@@ -1,52 +1,63 @@
-<% layout("layouts/boilerplate") %>
+<% layout('layouts/boilerplate') %>
 
-<div class="container my-5">
-  <h1 class="text-center fw-bold mb-4">🌍 Explore All Listings</h1>
+<div class="container my-4">
 
-  <!-- Debug: confirm EJS is receiving listings -->
-  <pre style="background:#f8f9fa;padding:10px;border-radius:6px;">
-<%= JSON.stringify(listings, null, 2) %>
-  </pre>
+  <h2 class="fw-bold text-center mb-4">🌍 Explore All Listings</h2>
 
-  <% if (listings && listings.length > 0) { %>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
+  <!-- 🔹 Listings Grid -->
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
+    <% if (listings && listings.length > 0) { %>
       <% listings.forEach(listing => { 
         let imgSrc;
 
+        // ✅ Fix: handle image correctly
         if (listing.image) {
-          if (typeof listing.image === "string") imgSrc = listing.image;
+          if (typeof listing.image === 'string') imgSrc = listing.image;
           else if (listing.image.url) imgSrc = listing.image.url;
           else imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
         } else {
           imgSrc = "https://via.placeholder.com/600x300?text=No+Image";
         }
       %>
-        <div class="col">
-          <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
-            <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
-              <img 
-                src="<%= imgSrc %>" 
-                class="card-img-top" 
-                alt="<%= listing.title %>" 
-                style="object-fit: cover; height: 200px;"
-              >
-              <div class="card-body">
-                <h5 class="card-title fw-bold"><%= listing.title %></h5>
-                <p class="text-muted mb-1"><%= listing.location %>, <%= listing.country %></p>
-                <p class="fw-semibold">₨ <%= listing.price.toLocaleString('en-PK') %> / night</p>
-              </div>
-            </a>
-          </div>
+
+      <div class="col">
+        <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
+          <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+            <img 
+              src="<%= imgSrc %>"
+              class="card-img-top"
+              alt="<%= listing.title || 'Listing Image' %>"
+              style="height:280px;object-fit:cover;transition:transform 0.3s ease;"
+              loading="lazy"
+              onmouseover="this.style.transform='scale(1.05)'"
+              onmouseout="this.style.transform='scale(1)'"
+            >
+            <div class="card-body">
+              <h5 class="card-title fw-semibold mb-1"><%= listing.title || 'Untitled Listing' %></h5>
+              <p class="text-success fw-semibold mb-1">
+                ₨ <%= listing.price ? listing.price.toLocaleString('en-PK') : 'N/A' %> / night
+              </p>
+              <p class="small text-secondary mb-0">
+                <i class="fa-solid fa-location-dot me-1"></i>
+                <%= listing.location || 'Unknown Location' %>, 
+                <%= listing.country || 'N/A' %>
+              </p>
+            </div>
+          </a>
         </div>
+      </div>
+
       <% }) %>
-    </div>
-  <% } else { %>
-    <div class="text-center mt-5">
-      <h4>No listings found 😢</h4>
-      <a href="/listings/new" class="btn btn-success mt-3">Create New Listing</a>
-    </div>
-  <% } %>
+    <% } else { %>
+      <div class="text-center text-muted my-5">
+        <i class="fa-solid fa-circle-exclamation fa-2x mb-3"></i>
+        <h5>No listings found yet.</h5>
+        <p class="small">Try adding a new one!</p>
+      </div>
+    <% } %>
+  </div>
 </div>
+
 
 
 
